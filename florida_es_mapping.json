@@ -1,0 +1,430 @@
+{
+    "settings": {
+        "index": {
+            "analysis": {
+                "analyzer": {
+                    "analyzer_lowercase": {
+                        "tokenizer": "keyword",
+                        "filter": "lowercase"
+                    }
+                }
+            }
+        }
+    },
+    "mappings": {
+        "ip2location": {
+            "properties": {
+                "city_name": {
+                    "type": "string",
+                    "analyzer": "analyzer_lowercase"
+                },
+                "location": {
+                    "type": "geo_point"
+                }
+            }
+        },
+        "business": {
+            "_parent": {
+                "type": "concierge"
+            },
+            "properties": {
+                "businessCity": {
+                    "type": "string",
+                    "analyzer": "analyzer_lowercase"
+                },
+                "star_rating": {
+                    "type": "double"
+                },
+                "review_count": {
+                    "type": "double"
+                },
+                "coupon": {
+                    "type": "double"
+                },
+                "price": {
+                    "type": "double"
+                },
+                "location": {
+                    "type": "geo_point"
+                },
+                "is_restcom": {
+                    "type": "boolean"
+                },
+                "is_rest": {
+                    "type": "boolean"
+                },
+                "is_priceline": {
+                    "type": "boolean"
+                },
+                "is_featured": {
+                    "type": "boolean"
+                },
+                "is_active": {
+                    "type": "boolean"
+                },
+                "claim_status": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "business_name": {
+                    "type": "string",
+                    "fields": {
+                        "raw": {
+                            "type": "string",
+                            "analyzer": "analyzer_lowercase"
+                        }
+                    }
+                },
+                "owner_keyword": {
+                    "type": "string",
+                    "fields": {
+                        "raw": {
+                            "type": "string",
+                            "analyzer": "analyzer_lowercase"
+                        }
+                    }
+                },
+                "import_reference": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "import_source": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                }
+            }
+        },
+        "concierge": {
+            "properties": {
+                "city": {
+                    "type": "string",
+                    "analyzer": "analyzer_lowercase"
+                },
+                "star_rating": {
+                    "type": "double"
+                },
+                "review_count": {
+                    "type": "double"
+                },
+                "coupon": {
+                    "type": "double"
+                },
+                "location": {
+                    "type": "geo_point"
+                },
+                "high_priority": {
+                    "type": "boolean"
+                },
+                "is_featured": {
+                    "type": "boolean"
+                },
+                "is_active": {
+                    "type": "boolean"
+                },
+                "claim_status": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "name": {
+                    "type": "string",
+                    "fields": {
+                        "raw": {
+                            "type": "string",
+                            "analyzer": "analyzer_lowercase"
+                        }
+                    }
+                },
+                "import_reference": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "import_source": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "start_date": {
+                    "type": "date",
+                    "format": "yyyy-MM-dd HH:mm:ss"
+                },
+                "end_date": {
+                    "type": "date",
+                    "format": "yyyy-MM-dd HH:mm:ss"
+                }
+            }
+        },
+        "activity": {
+            "properties" : {
+                "keyword": {
+                    "type": "string",
+                    "fields": {
+                        "raw": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                        }
+                    }
+                },
+                "related_words": {
+                    "type" : "string",
+                    "index_name" : "tag"
+                }
+            }
+        },
+        "activity_type": {
+            "_parent": {
+                "type": "activity"
+            },
+            "properties" : {
+                "popularity": {
+                    "type": "double"
+                },
+                "priority": {
+                    "type": "double"
+                },
+                "activity_id": {
+                    "type": "integer"
+                },
+                "keyword": {
+                    "type": "string",
+                    "fields": {
+                        "raw": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                        }
+                    }
+                },
+                "related_words": {
+                    "type" : "string",
+                    "index_name" : "tag"
+                }
+            }
+        },
+        "activity_type_city": {
+            "_parent": {
+                "type": "activity_type"
+            },
+            "properties": {
+                "city": {
+                    "type": "string",
+                    "analyzer": "analyzer_lowercase"
+                },
+                "location": {
+                    "type": "geo_point"
+                },
+                "is_active": {
+                    "type": "boolean"
+                },
+                "end_date": {
+                    "type": "date",
+                    "format": "yyyy-MM-dd HH:mm:ss"
+                }
+            }
+        },
+        "concierge_activity": {
+            "_parent": {
+                "type": "concierge"
+            },
+            "properties": {
+                "city": {
+                    "type": "string",
+                    "analyzer": "analyzer_lowercase"
+                },
+                "activity_id": {
+                    "type": "integer"
+                },
+                "activity_type_id": {
+                    "type": "integer"
+                },
+                "location": {
+                    "type": "geo_point"
+                }
+            }
+        },
+        "business_category": {
+            "_parent": {
+                "type": "business"
+            },
+            "properties": {
+                "category_id": {
+                    "type": "integer"
+                },
+                "parent_id": {
+                    "type": "integer"
+                },
+                "is_featured": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string",
+                    "fields": {
+                        "raw": {
+                            "type": "string",
+                            "index_options" : "positions",
+                            "index": "not_analyzed"
+                        }
+                    }
+                },
+                "parent_name": {
+                    "type": "string",
+                    "fields": {
+                        "raw": {
+                            "type": "string",
+                            "index_options" : "positions",
+                            "index": "not_analyzed"
+                        }
+                    }
+                }
+            }
+        },
+        "category": {
+            "properties": {
+                "parentCategory": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "category_id": {
+                    "type": "integer"
+                },
+                "parent_id": {
+                    "type": "integer"
+                },
+                "is_featured": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "business_listing_locations": {
+            "_parent": {
+                "type": "business"
+            },
+            "properties": {
+                "city": {
+                    "type": "string",
+                    "analyzer": "analyzer_lowercase"
+                },
+                "location": {
+                    "type": "geo_point"
+                },
+                "start_date": {
+                    "type": "date",
+                    "format": "yyyy-MM-dd HH:mm:ss"
+                },
+                "expiry_date": {
+                    "type": "date",
+                    "format": "yyyy-MM-dd HH:mm:ss"
+                }
+            }
+        },
+        "cities": {
+            "properties": {
+                "state": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "county": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "zone": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "location": {
+                    "type": "geo_point"
+                },
+                "name": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                }
+            }
+        },
+        "coupon": {
+            "_parent": {
+                "type": "business"
+            },
+            "properties": {
+                "business_id": {
+                    "type": "integer"
+                },
+                "tags" : {
+                    "type" : "string",
+                    "index_name" : "tag"
+                },
+                "expiry": {
+                    "type":   "date",
+                    "format": "yyyy-MM-dd"
+                },
+                "coupon_name": {
+                    "type": "string",
+                    "fields": {
+                        "raw": {
+                            "type": "string",
+                            "analyzer": "analyzer_lowercase"
+                        }
+                    }
+                },
+                "coupon_value": {
+                    "type": "double"
+                },
+                "coupon_photo": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "category": {
+                    "type": "integer"
+                },
+                "city": {
+                    "type": "integer"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "geo_point"
+                },
+                "star_rating": {
+                    "type": "double"
+                }
+            }
+        },
+        "coupon_purchase": {
+            "_parent": {
+                "type": "business"
+            },
+            "properties": {
+                "status": {
+                    "type": "boolean"
+                },
+                "expiry": {
+                    "type": "date",
+                    "format": "yyyy-MM-dd HH:mm:ss"
+                }
+            }
+        },
+        "recommendations": {
+            "_parent": {
+                "type": "concierge"
+            },
+            "properties": {
+                "user_id": {
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type":   "date",
+                    "format": "yyyy-MM-dd HH:mm:ss"
+                },
+                "city": {
+                    "type": "string",
+                    "analyzer": "analyzer_lowercase"
+                },
+                "use_in_search": {
+                    "type": "boolean"
+                }
+            }
+        }
+    }
+}
